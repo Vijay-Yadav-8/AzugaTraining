@@ -5,7 +5,7 @@
  *  * @Author -vijayyz.
  */
 
-package com.azuga.training.Json;
+package com.azuga.training.week2;
 
 import org.json.CDL;
 import org.json.JSONArray;
