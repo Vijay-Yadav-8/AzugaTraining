@@ -2,10 +2,10 @@
  * Copyright (c) 2022.  - All Rights Reserved
  *  * Unauthorized copying or redistribution of this file in source and binary forms via any medium
  *  * is strictly prohibited-
- *  * @Author -vijayyv.
+ *  * @Author -vijayyz.
  */
 
-package com.azuga.training;
+package com.azuga.training.week1;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
