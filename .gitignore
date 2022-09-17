@@ -2,10 +2,10 @@ Main.java
 MyList.java
 Rough.java
 .DS_Store
-Json/ConstituentsItem.java
-Json/ElementMeasurements.java
-Json/MeasurementsItem.java
-Json/ReApi.java
-Json/Response.java		
-Json/TagsItem.java
-Json/Response.java
+week2/ConstituentsItem.java
+week2/ElementMeasurements.java
+week2/MeasurementsItem.java
+week2/ReApi.java
+week2/Response.java
+week2/TagsItem.java
+week2/Response.java
