@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Here we are converting csv file to html file
+ * This class converts csv file to html file
  */
-public class html {
+public class CsvToHtml {
     public static void main(String[] args) {
-        List<String> lines = new ArrayList<String>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/azuga/Desktop/museum.csv"))) {
+        List<String> lines = new ArrayList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/azuga/Desktop/museum.csv"))) {//reading the file here
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {
                 lines.add(currentLine);
@@ -35,7 +35,7 @@ public class html {
         lines.set(0, "<table border>" + lines.get(0));
         lines.set(lines.size() - 1, lines.get(lines.size() - 1) + "</table>");
 
-        try (FileWriter writer = new FileWriter("/Users/azuga/Desktop/museum.html")) {
+        try (FileWriter writer = new FileWriter("/Users/azuga/Desktop/museum3.html")) {//writing String to html file
             for (String line : lines) {
                 writer.write(line + "\n");
             }
