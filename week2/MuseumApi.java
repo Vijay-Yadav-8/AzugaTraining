@@ -6,7 +6,7 @@
  *  * @Author -vijayyv.
  */
 
-package com.azuga.training.Json;
+package com.azuga.training.week2;
 
 import com.github.opendevl.JFlat;
 import com.opencsv.CSVReader;
