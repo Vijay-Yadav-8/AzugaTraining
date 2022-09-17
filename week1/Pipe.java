@@ -1,10 +1,11 @@
-package com.azuga.training;
 /*
  * Copyright (c) 2022.  - All Rights Reserved
  *  * Unauthorized copying or redistribution of this file in source and binary forms via any medium
  *  * is strictly prohibited-
  *  * @Author -vijayyv.
  */
+
+package com.azuga.training.week1;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
