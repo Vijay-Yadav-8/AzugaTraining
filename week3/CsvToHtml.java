@@ -20,10 +20,16 @@ import java.util.List;
 public class CsvToHtml {
     public static void main(String[] args) {
         List<String> lines = new ArrayList<>();
-        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/azuga/Desktop/museum.csv"))) {//reading the file here
+        try (BufferedReader reader = new BufferedReader(new FileReader("/Users/azuga/Desktop/museum1.csv"))) {//reading the file here
             String currentLine;
             while ((currentLine = reader.readLine()) != null) {
-                lines.add(currentLine);
+
+                String s2 = currentLine.replaceAll("\"\"","null");
+                String s3 = s2.replaceAll("\"","");
+                String s=s3.replaceAll("https\\://images.metmuseum.org/CRDImages","<img src=https\\://images.metmuseum.org/CRDImages");
+                String s1=s.replaceAll("jpg","jpg style=\"width:100px;height:100px;\" >");
+
+                lines.add(s1);
             }
         } catch (IOException e) {
             e.printStackTrace();
