@@ -8,6 +8,7 @@
 package com.azuga.training.week2;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
@@ -89,12 +90,16 @@ public class ApiRest {
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
-        Response ob = new ObjectMapper().readValue(new File("/Users/azuga/Desktop/hello.json"), Response.class);
+        JsonNode jsonTree = new ObjectMapper().readTree(new File("/Users/azuga/Desktop/hello.json"));
 
 
 //        JsonNode jsonTree = new ObjectMapper().readTree(new File("/Users/azuga/Desktop/hello.json"));
 //        Response response = new CsvSchema();
         CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
+        JsonNode firstObject = jsonTree.elements().next();
+        firstObject.fieldNames().forEachRemaining(csvSchemaBuilder::addColumn);
+        CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
+//        CsvSchema.Builder csvSchemaBuilder = CsvSchema.builder();
 //        String tagsItemsList = tagsItems.stream().map(Object::toString)
 //                .collect(Collectors.joining(", "));
 //
@@ -110,10 +115,14 @@ public class ApiRest {
 //
 //        firstObject.fieldNames().forEachRemaining(fieldName -> {csvSchemaBuilder.addColumn(fieldName);} );
 //        firstObject.fieldNames().forEachRemaining(csvSchemaBuilder::addColumn);
-        CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
+//        CsvSchema csvSchema = csvSchemaBuilder.build().withHeader();
+////        CsvMapper csvMapper = new CsvMapper();
+//        csvSchema.writerFor(Response.class)
+//                .with(csvSchema)
+//                .writeValue(new File("/Users/azuga/Desktop/hello123.csv"), ob);
         CsvMapper csvMapper = new CsvMapper();
-        csvMapper.writerFor(Response.class)
+        csvMapper.writerFor(JsonNode.class)
                 .with(csvSchema)
-                .writeValue(new File("/Users/azuga/Desktop/hello1.csv"), ob);
+                .writeValue(new File("/Users/azuga/Desktop/hello123.csv"), jsonTree);
     }
 }
