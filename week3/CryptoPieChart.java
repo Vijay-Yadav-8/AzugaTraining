@@ -2,7 +2,7 @@
  * Copyright (c) 2022.  - All Rights Reserved
  *  * Unauthorized copying or redistribution of this file in source and binary forms via any medium
  *  * is strictly prohibited-
- *  * @Author -vijayyz.
+ *  * @Author -vijayyv.
  */
 
 package com.azuga.training.week3;
@@ -29,9 +29,16 @@ import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 
-
-public class PieChart extends JFrame {
-    public PieChart(String title,PieDataset dataset) {
+/**
+ * This Class creates Pie chart by obtaining json data from cryptocurrency api
+ */
+public class CryptoPieChart extends JFrame {
+    /**
+     * This Constructor is used to create Pie chart with the given input
+     * @param title-Used to set the title for Output image
+     * @param dataset-Data required to create a pie chart
+     */
+    public CryptoPieChart(String title, PieDataset<String> dataset) {
         super(title);
 
         // Creating chart
@@ -54,25 +61,18 @@ public class PieChart extends JFrame {
 
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
-        String url = "https://api.coingecko.com/api/v3/global";  //fetching json data via url
+        String url = "https://api.coingecko.com/api/v3/global";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         HttpClient client = HttpClient.newBuilder().build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         String str ;
         if (response.statusCode() == 200) {
             str = response.body();
-            //splitting market cap %age section
-
             String[] str1 = str.split("\"market_cap_percentage\"");
 
             String rem = str1[1].replace(":{", "").replace("}}", "");
 
-            Map<String, Double> map = new HashMap<>(); //mapping "key-value" pair from market_cap_percentage
-
-
-            //splitting and storing the data fetched from the url
-
+            Map<String, Double> map = new HashMap<>();
             String[] str2 = rem.split(",");
             double d;
             for (String value : str2) {
@@ -85,13 +85,10 @@ public class PieChart extends JFrame {
                     break;
                 }
             }
-
-            //creating new dataset by coping data from a keyed values instances
-
-            DefaultPieDataset defaultPieDataset = new DefaultPieDataset();
-            map.forEach((key, value) -> defaultPieDataset.setValue(key, value));
+            DefaultPieDataset<String> defaultPieDataset = new DefaultPieDataset<>();
+            map.forEach(defaultPieDataset::setValue);
             SwingUtilities.invokeLater(() -> {
-                PieChart example = new PieChart("Crypto PieChart", defaultPieDataset);
+                CryptoPieChart example = new CryptoPieChart("Crypto PieChart", defaultPieDataset);
                 example.setSize(800, 400);
                 example.setLocationRelativeTo(null);
                 example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
