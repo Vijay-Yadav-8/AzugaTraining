@@ -6,6 +6,9 @@
  */
 
 package com.azuga.training.week1;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
@@ -20,6 +23,7 @@ import java.util.regex.Pattern;
  * This class mimics pipe(|) commands of linux
  */
 public class Pipe {
+	private static final Logger logger = LogManager.getLogger(Pipe.class);
 	/**
 	 * It prints all folders/files one by onr in new line
 	 * @param path - used to take folder path
@@ -32,6 +36,7 @@ public class Pipe {
 		assert arr != null;
 		for (String s : arr)
 			ans.append(s).append("\n");
+		logger.info("ls_1 is executed");
 		return ans.toString();
 	}
 
@@ -50,6 +55,7 @@ public class Pipe {
 					ans.append(f1).append("\n");
 			}
 		}
+		logger.info("ls_a is executed");
 		return ans.toString();
 	}
 
@@ -70,6 +76,7 @@ public class Pipe {
 		}
 			SimpleDateFormat pdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			mp.forEach((key, value) -> ans.set(ans + (pdf.format(key) + " " + value + "\n")));
+		logger.info("ls_t is executed");
 		return ans.get();
 	}
 	/**
@@ -90,6 +97,7 @@ public class Pipe {
 
 		SimpleDateFormat pdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 		mp.forEach((key, value) -> ans.set(ans + (pdf.format(key) + " " + value + "\n")));
+		logger.info("ls_T is executed");
 		return ans.get();
 	}
 	/**
@@ -124,10 +132,11 @@ public class Pipe {
 							+ (value.getName()) + "\n");
 				}
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("Exception "+e.getMessage());
 			}
 
 		});
+		logger.info("ls_lS is executed");
 		return ans.get();
 	}
 	/**
@@ -148,8 +157,9 @@ public class Pipe {
 				}
 			}
 		}catch(Exception e) {
-			System.out.println("An error occurred");
+			logger.error("Exception "+e.getMessage());
 		}
+		logger.info("ls_X is executed");
 		return ans.toString();
 	}
 	/**
@@ -171,8 +181,9 @@ public class Pipe {
 				}
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("Exception "+e.getMessage());
 		}
+		logger.info("ls_la is executed");
 		return ans.toString();
 	}
 
@@ -203,9 +214,10 @@ public class Pipe {
 						+ (pdf.format(value.lastModified()) + " ")
 						+ (value.getName() + "\n"));
 			} catch (Exception e) {
-				e.printStackTrace();
+				logger.error("Exception "+e.getMessage());
 			}
 		});
+		logger.info("ls_LRT is executed");
 		return ans.get();
 	}
 
@@ -224,6 +236,7 @@ public class Pipe {
 				 path.append(s).append("\n");
 		 }
 	 }
+		logger.info("ls is executed");
 	 return path.toString();
  }
 
@@ -240,9 +253,9 @@ public class Pipe {
 			else
 				return "path";
 		} catch (IOException e) {
-			System.out.println("exception raised");
-			e.printStackTrace();
+			logger.error("Exception "+e.getMessage());
 		}
+		logger.info("cat is executed");
 		return "path";
 	}
 	/**
@@ -266,6 +279,7 @@ public class Pipe {
 			i++;
 		}
 		ans=ans+(i+"\t");
+		logger.info("wc is executed");
 		return ans;
 	}
 	/**
@@ -280,6 +294,7 @@ public class Pipe {
 		for (String e:ls) {
 			ans.append(e).append("\n");
 		}
+		logger.info("sort is executed");
 		return ans.toString();
 	}
 
@@ -298,6 +313,7 @@ public class Pipe {
 			ans.append(s).append("\n");
 		}
 		}
+		logger.info("grep is executed");
 		return ans.toString();
 	}
 
@@ -315,10 +331,11 @@ public class Pipe {
 		for(String s:ar) {
 			if (i>=len){ 
 				break;
-}
+			}
 			ans.append(s).append("\n");
 			i++;
 		}
+		logger.info("head is executed");
 		return ans.toString();
 	}
 	/**
@@ -344,8 +361,9 @@ public class Pipe {
 			System.out.print(Files.size(path1)+" ");
 			System.out.println(path1.getFileName());
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error("Exception "+e.getMessage());
 		}
+		logger.info("wc_all is executed");
 
 	}
 	/**
@@ -367,6 +385,7 @@ public class Pipe {
 			ans.append(s).append("\n");
 			i++;
 		}
+		logger.info("tail is executed");
 		return ans.toString();
 	}
 
@@ -425,13 +444,19 @@ public class Pipe {
 			System.out.println("command not found");
 	}
 		System.out.println(output);
+		logger.info("ptrMcr is executed");
 }
 	/**
 	 *
 	 * @param args - it is used to take the input from the user as command line argument
 	 */
 	public static void main(String[] args) {
-		ptrMcr(args[0]);
+		try {
+				ptrMcr(args[0]);
+		}catch (ArrayIndexOutOfBoundsException e){
+			logger.error("Exception "+e);
+			ptrMcr("no command");
+		}
 	}
 
 }
