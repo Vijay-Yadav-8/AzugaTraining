@@ -7,14 +7,22 @@
 
 package com.azuga.training.week1;
 
-import java.io.*;
-import java.nio.file.*;
+
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 /**
  * This class mimics the cat wc and sort commands of linux
  */
 public class Cat{
+
+	private static final Logger logger = LogManager.getLogger(Cat.class);
 	/**
 	 * It prints the data which is present in the given file on to the console
 	 * @param path -It is used to take the input file path
@@ -24,8 +32,9 @@ public class Cat{
 			try {
 				return  Files.readString(Path.of(path));//-used to read the text in the given path
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.warn("Exception"+e.getMessage());
 			}
+			logger.info("cat is executed");
 			return null;
 		}
 
@@ -49,7 +58,7 @@ public class Cat{
 				i++;
 			}
 			System.out.println(i+"\t");
-			
+			logger.info("cat is executed");
 		}
 
 	/**
@@ -61,6 +70,7 @@ public class Cat{
 			List<String> ls = new ArrayList<>(Arrays.asList(lines));
 			Collections.sort(ls);
 			ls.forEach(System.out::println);
+			logger.info("cat is executed");
 		}
 
 	/**
@@ -68,7 +78,12 @@ public class Cat{
 	 * @param args - it is used to take the input from the user as command line argument
 	 */
 		public static void main(String[] args) {
-			String str = args[0];
+			String str = null;
+			try {
+				str= args[0];
+			}catch (ArrayIndexOutOfBoundsException e){
+				logger.fatal("command line arguments are not provided");
+				}
 			String []s = str.split(" ");
 			if(s.length<=1) {
 				System.out.println(cat(s[0]));
