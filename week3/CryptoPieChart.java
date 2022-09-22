@@ -20,6 +20,9 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -33,6 +36,7 @@ import org.jfree.data.general.PieDataset;
  * This Class creates Pie chart by obtaining json data from cryptocurrency api
  */
 public class CryptoPieChart extends JFrame {
+    private static final Logger logger = LogManager.getLogger(CryptoPieChart.class);
     /**
      * This Constructor is used to create Pie chart with the given input
      * @param title-Used to set the title for Output image
@@ -51,23 +55,33 @@ public class CryptoPieChart extends JFrame {
 
         //Format Label
         PieSectionLabelGenerator labelGenerator = new StandardPieSectionLabelGenerator(
-                "crypto {0} : ({1})", new DecimalFormat("00.00"), new DecimalFormat("00%"));
+                "{0} : ({1})", new DecimalFormat("00.00"), new DecimalFormat("00%"));
         ((PiePlot<?>) chart.getPlot()).setLabelGenerator(labelGenerator);
 
         // Create Panel
         ChartPanel panel = new ChartPanel(chart);
         setContentPane(panel);
+        logger.info("CryptoPieChart() is executed");
     }
 
 
-    public static void main(String[] args) throws IOException, InterruptedException {
+    public static void main(String[] args){
         String url = "https://api.coingecko.com/api/v3/global";
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         HttpClient client = HttpClient.newBuilder().build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            logger.error("Exception "+e.getMessage());
+            throw new RuntimeException(e);
+        }
         String str ;
+        String substring = url.substring(url.length() - 14, url.length() - 1);
         if (response.statusCode() == 200) {
+            logger.trace("making a call to the server using url "+url);
             str = response.body();
+            logger.debug("response given by the end point  "+ substring +" is "+str);
             String[] str1 = str.split("\"market_cap_percentage\"");
 
             String rem = str1[1].replace(":{", "").replace("}}", "");
@@ -75,12 +89,17 @@ public class CryptoPieChart extends JFrame {
             Map<String, Double> map = new HashMap<>();
             String[] str2 = rem.split(",");
             double d;
+            int i=0;
             for (String value : str2) {
                 if (!(value.charAt(value.length() - 1) == '}')) {
                     String[] s = value.split(":");
                     d = Double.parseDouble(s[1]);
-                    System.out.println(s[0] + "" + d);
-                    map.put(s[0].replace("\"", ""), d);
+                    if(i==0||i==1){
+                        System.out.println("dropped");
+                    }else {
+                        map.put(s[0].replace("\"", ""), d);
+                    }
+                    i++;
                 } else {
                     break;
                 }
@@ -94,8 +113,9 @@ public class CryptoPieChart extends JFrame {
                 example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 example.setVisible(true);
             });
-            System.out.println(str);
         }
+        else
+            logger.error(response.statusCode()+"Error code for url end point"+substring);
     }
 
 }
