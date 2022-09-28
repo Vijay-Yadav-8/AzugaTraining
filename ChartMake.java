@@ -13,6 +13,8 @@ package com.azuga.training;
 public interface ChartMake {
 
     void pieChartMaker();
+
     void lineGraphMaker(String srcPath);
+
     void barGraphMaker();
 }
