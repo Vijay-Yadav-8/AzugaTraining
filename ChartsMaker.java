@@ -41,34 +41,38 @@ import java.util.Map;
 /**
  * This class is used to create Bar Graph ,Line chart and Pie chart by making appropriate api calls
  */
-public class ChartsMaker extends JFrame implements ChartMake{
+public class ChartsMaker extends JFrame implements ChartMake {
     private static final Logger logger = LogManager.getLogger(ChartsMaker.class);
+
     /**
      * This constructor is used to create Bar graph from the given json data.
+     *
      * @param appTitle -title for Bar Graph
-     * @param dataset -data required to make graph
+     * @param dataset  -data required to make graph
      */
     public ChartsMaker(String appTitle, CategoryDataset dataset) {
         super(appTitle);
         long start = System.currentTimeMillis();
         //Create chart
-        JFreeChart chart=ChartFactory.createBarChart(
+        JFreeChart chart = ChartFactory.createBarChart(
                 "Carbon Intensity in UK", //Chart Title
                 "Time with 30 min interval", // Category axis
                 "Readings (kW/hour)", // Value axis
                 dataset,
                 PlotOrientation.VERTICAL,
-                true,true,false
+                true, true, false
         );
 
-        ChartPanel panel=new ChartPanel(chart);
+        ChartPanel panel = new ChartPanel(chart);
         setContentPane(panel);
         long end = System.currentTimeMillis();
-        logger.info("chartsMaker() is executed in {} ms",(end-start));
+        logger.info("chartsMaker() is executed in {} ms", (end - start));
     }
+
     /**
      * This Constructor is used to create Pie chart with the given input
-     * @param title-Used to set the title for Output image
+     *
+     * @param title-Used   to set the title for Output image
      * @param dataset-Data required to create a pie chart
      */
     public ChartsMaker(String title, PieDataset<String> dataset) {
@@ -88,31 +92,32 @@ public class ChartsMaker extends JFrame implements ChartMake{
 
         // Create Panel
         ChartPanel panel = new ChartPanel(chart);
-        setContentPane(panel); long end = System.currentTimeMillis();
-        logger.info("chartsMaker() is executed in {} ms",(end-start));
+        setContentPane(panel);
+        long end = System.currentTimeMillis();
+        logger.info("chartsMaker() is executed in {} ms", (end - start));
     }
 
-    public ChartsMaker(){
+    public ChartsMaker() {
     }
 
     /**
      * this method makes pie chart by collecting data from coin gecko api
      */
-    public void pieChartMaker(){
+    public void pieChartMaker() {
         long start = System.currentTimeMillis();
         String url = "https://api.coingecko.com/api/v3/global";
-        logger.info("making a call on URL {}",url);
+        logger.info("making a call on URL {}", url);
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         HttpClient client = HttpClient.newBuilder().build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            logger.error("{} occurred while getting a response coin gecko url {}",e,url);
+            logger.error("{} occurred while getting a response coin gecko url {}", e, url);
         }
-        String str ;
+        String str;
         String substring = url.substring(url.length() - 14, url.length() - 1);
-        if(response!=null) {
+        if (response != null) {
             if (response.statusCode() == 200) {
                 logger.trace("making a call to the server using url " + url);
                 str = response.body();
@@ -149,29 +154,30 @@ public class ChartsMaker extends JFrame implements ChartMake{
                     example.setVisible(true);
                 });
             } else
-                logger.error("server responded with Error code {} for url end point {}",response.statusCode(),substring);
+                logger.error("server responded with Error code {} for url end point {}", response.statusCode(), substring);
         }
         long end = System.currentTimeMillis();
-        logger.info("pieChartMaker() is executed in {} ms",(end-start));
+        logger.info("pieChartMaker() is executed in {} ms", (end - start));
     }
+
     /**
      * this method makes line graph by collecting data from coin gecko api/cardano crypto
      */
-    public void lineGraphMaker(String srcPath){
+    public void lineGraphMaker(String srcPath) {
         long start = System.currentTimeMillis();
         String url = "https://api.coingecko.com/api/v3/coins/cardano/market_chart?vs_currency=usd&days=30&interval=daily";
-        logger.info("making a call on URL {}",url);
+        logger.info("making a call on URL {}", url);
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         HttpClient client = HttpClient.newBuilder().build();
         HttpResponse<String> response = null;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.debug("Coin gecko api Data: "+response.body());
+            logger.debug("Coin gecko api Data: " + response.body());
         } catch (IOException | InterruptedException e) {
-            logger.error("{} occurred while getting a response form coin gecko url {}",e,url);
+            logger.error("{} occurred while getting a response form coin gecko url {}", e, url);
         }
         String substring = url.substring(url.length() - 22, url.length() - 1);
-        if(response != null) {
+        if (response != null) {
             if (response.statusCode() == 200) {
                 JSONObject jsonObject = new JSONObject(response.body());
                 logger.debug("Json Object Data is :" + jsonObject);
@@ -197,49 +203,50 @@ public class ChartsMaker extends JFrame implements ChartMake{
                     logger.error("Exception " + e.getMessage());
                 }
             } else
-                logger.error("server responded with Error code {} for url end point {}",response.statusCode(),substring);
+                logger.error("server responded with Error code {} for url end point {}", response.statusCode(), substring);
         }
         long end = System.currentTimeMillis();
-        logger.info("lineChartMaker() is executed in {} ms",(end-start));
+        logger.info("lineChartMaker() is executed in {} ms", (end - start));
 
     }
+
     /**
      * this method makes bar Graph by collecting data from carbon intensity api
      */
-    public void barGraphMaker(){
+    public void barGraphMaker() {
         long start = System.currentTimeMillis();
         String url = "https://api.carbonintensity.org.uk/intensity/2018-01-22/2018-01-23";
-        logger.info("making a call on URL {}",url);
+        logger.info("making a call on URL {}", url);
         HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
         HttpClient client = HttpClient.newBuilder().build();
         HttpResponse<String> response;
         try {
             response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            logger.debug("Carbon Intensity Data: "+response.body());
+            logger.debug("Carbon Intensity Data: " + response.body());
         } catch (IOException | InterruptedException e) {
-            logger.error("Exception "+e.getMessage());
+            logger.error("Exception " + e.getMessage());
             throw new RuntimeException(e);
         }
         String str;
         String substring = url.substring(url.length() - 25, url.length() - 1);
         if (response.statusCode() == 200) {
-            logger.trace("making a call to the server using url "+url);
+            logger.trace("making a call to the server using url " + url);
             str = response.body();
-            logger.debug("response given by the end point  "+ substring +" is "+str);
+            logger.debug("response given by the end point  " + substring + " is " + str);
             JSONObject jsonObject = new JSONObject(str);
-            logger.debug("JSONObject data is : "+jsonObject);
+            logger.debug("JSONObject data is : " + jsonObject);
             JSONArray arr = jsonObject.getJSONArray("data");
-            logger.debug("JSONArray data is :"+arr);
+            logger.debug("JSONArray data is :" + arr);
             DefaultCategoryDataset dataset = new DefaultCategoryDataset();
             for (int i = 1; i < 10; i++) {
                 dataset.addValue((Number) arr.getJSONObject(i).getJSONObject("intensity").get("forecast"),
-                        "forecast", arr.getJSONObject(i).get("from").toString().substring(11,16));
+                        "forecast", arr.getJSONObject(i).get("from").toString().substring(11, 16));
                 dataset.addValue((Number) arr.getJSONObject(i).getJSONObject("intensity").get("actual"),
-                        "actual", arr.getJSONObject(i).get("from").toString().substring(11,16));
+                        "actual", arr.getJSONObject(i).get("from").toString().substring(11, 16));
                 dataset.addValue((Number) arr.getJSONObject(i).getJSONObject("intensity").get("forecast"),
-                        "forecast", arr.getJSONObject(i).get("to").toString().substring(11,16));
+                        "forecast", arr.getJSONObject(i).get("to").toString().substring(11, 16));
                 dataset.addValue((Number) arr.getJSONObject(i).getJSONObject("intensity").get("actual"),
-                        "actual", arr.getJSONObject(i).get("to").toString().substring(11,16));
+                        "actual", arr.getJSONObject(i).get("to").toString().substring(11, 16));
             }
             SwingUtilities.invokeLater(() -> {
                 ChartsMaker example = new ChartsMaker("CarbonIntensity Line Chart", dataset);
@@ -249,11 +256,10 @@ public class ChartsMaker extends JFrame implements ChartMake{
                 example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
                 example.setVisible(true);
             });
-        }
-        else{
-            logger.error("server responded with Error code {} for url end point {}",response.statusCode(),substring);
+        } else {
+            logger.error("server responded with Error code {} for url end point {}", response.statusCode(), substring);
         }
         long end = System.currentTimeMillis();
-        logger.info("barChartMaker() is executed in {} ms",(end-start));
+        logger.info("barChartMaker() is executed in {} ms", (end - start));
     }
 }
