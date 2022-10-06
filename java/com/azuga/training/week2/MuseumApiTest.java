@@ -42,16 +42,15 @@ class MuseumApiTest {
     @Disabled("requires to run separately")
     void test_museum_ApiCallMaker() {
         long start = System.currentTimeMillis();
-        MuseumApi api1= new MuseumApi();
         for (int i = 0; i < 10; i++) {
             try {
-                api1.apiCallMaker("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + (i * 10));
+                api.apiCallMaker("https://collectionapi.metmuseum.org/public/collection/v1/objects/" + (i * 10));
             } catch (InterruptedException e) {
                 logger.error("{} occurred while fetching data from museum server", e.getMessage());
             }
         }
             try {
-                api1.csvWriter("/Users/azuga/Desktop/museumJSON.json","/Users/azuga/Desktop/museumCSV.csv");
+                api.csvWriter("/Users/azuga/Desktop/museumJSON.json","/Users/azuga/Desktop/museumCSV.csv");
             } catch (FileNotFoundException e) {
                 logger.error("{} occurred while reading data from {} or writing data to {}",e.getMessage(),"/Users/azuga/Desktop/museumJSON.json","/Users/azuga/Desktop/museumCSV.csv");
             }
@@ -71,16 +70,15 @@ class MuseumApiTest {
     @Test
     void test_fakeStore_ApiCallMaker() {
         long start = System.currentTimeMillis();
-        MuseumApi api1= new MuseumApi();
         for (int i = 0; i < 10; i++) {
             try {
-                api1.apiCallMaker("https://fakestoreapi.com/products/1" + i);
+                api.apiCallMaker("https://fakestoreapi.com/products/1" + i);
             } catch (InterruptedException e) {
                 logger.error("{} occurred while fetching data from fake store server", e.getMessage());
             }
         }
             try {
-                api1.csvWriter("/Users/azuga/Desktop/fakeJSON.json","/Users/azuga/Desktop/fakeCSV.csv");
+                api.csvWriter("/Users/azuga/Desktop/fakeJSON.json","/Users/azuga/Desktop/fakeCSV.csv");
             } catch (FileNotFoundException e) {
                 logger.error("{} occurred while reading data from {} or writing data to {}",e.getMessage(),"/Users/azuga/Desktop/fakeJSON.json","/Users/azuga/Desktop/fakeCSV.csv");
             }
