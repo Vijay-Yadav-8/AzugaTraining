@@ -7,140 +7,41 @@ It contains the code to create charts and graphs by making an api call.
 
 - [@VijayYadav](https://github.com/Vijay-Yadav-8)
 
+![Json2Flat 1.0.3](https://img.shields.io/badge/json2flat-1.0.3-green.svg)](https://search.maven.org/artifact/com.github.opendevl/json2flat/1.0.3/jar) 
 
-## Installation
+[![opencsv 1.7](https://img.shields.io/badge/opencsv-1.7-green.svg)](https://sourceforge.net/projects/opencsv/) 
 
-Install my-project using git
+[![gson 2.9.1](https://img.shields.io/badge/gson-2.9.1-green.svg)](https://search.maven.org/artifact/com.google.code.gson/gson/2.9.1/jar) 
 
-```bash
-  git clone https://github.com/Vijay-Yadav-8/AzugaTraining
-  cd my-project
-```
-    
-## Roadmap
+[![json-path 2.7.0](https://img.shields.io/badge/json_path-2.7.0-green.svg)](https://search.maven.org/artifact/com.jayway.jsonpath/json-path/2.7.0/jar) 
 
-- The development of project is completed under features branch i.e, [features](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features)
-
-- The development of JAR file is completed under development branch i.e, [develop](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/develop)
-
-- The testing of the program's is completed under testing branch i.e,[testing](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/testing)
-
-## Features
-
-The Project Azuga Training has codes for different applications like,
-- [Linux-commands](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features/week1#:~:text=15%20days%20ago)
-The project contains programs that mimics some of the basic Linux-Commands like cat, wc, head, tail, sort, ls etc
-
-- [Api-Calls](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features/week2)
-It is included with programs for major Api's GET methods to get the data from the Api's and use them to create the .csv and .json files. 
-
-- [File-Formatting](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features/week3)
-The data from the Api's Call method stored in .csv and .json file are formatted to the .xml, .pdf, .html formats.
-
-- [Charts Creation](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features/week3)
-The Api's data in the files are used to create the charts, i.e to visualize the properties of the Api. Bar chart, Pie Chart and Line Chart are created.
-
-- [OOPs Concepts](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features/oop)
-OOps concepts like interface, methods, objects, classes, constructors, abstraction etc were also used in the java codes.
-
-- [Zip And UnZip](https://github.com/Vijay-Yadav-8/AzugaTraining/tree/features/week4)
-The reports created from the Api calls and Formatters were zipped, unzipped and sent through the mail programatically using java language.
-
-## Run Locally
-
-Clone the project
-
-```bash
-  git clone https://github.com/Vijay-Yadav-8/AzugaTraining
-```
-
-Go to the project directory
-
-```bash
-  cd my-project
-```
-
-Open the project in any IDE like (IntelliJ idea,Eclipse)
-
-Then you can directly start working on the project
+[![json-flattener 2.7.0](https://img.shields.io/badge/json_flattener-0.14.0-green.svg)](https://search.maven.org/artifact/com.github.wnameless.json/json-flattener/0.14.0/jar) 
 
 
+# Rest API 
+[Museum API](https://metmuseum.github.io/ ) considered to fetch data and do program using it. This API has a complex json data which contains nested objects and arrays. Due to its complex structure, I have choosen it to learn string manipulation and other concepts of java.
 
+## MuseumAPI
+This program use calls API to get json data and covert it into csv file.
 
-## Running Tests
+#### External library
+- [Json2Flat](https://github.com/opendevl/Json2Flat) : It is used for flattening of json data.
+- [OpenCSV](https://opencsv.sourceforge.net/) : Used for reading and writing into csv file
+- [gson](https://github.com/google/gson)
+- [slf4j](https://www.slf4j.org/download.html)
 
-To run tests, you have to write tests by your own or you can use automation tools like selenium in java.
+## csv to html
+This program converts csv file to html file including display of image through links.
 
+## csv to pdf
+This program converts csv file to pdf file into proper page structure.
+#### External library
+- [itextpdf](https://github.com/itext/itextpdf)
 
-
-## API Reference
-
-## Museum Api
-
-#### Get all items
-
-```http
-  GET 
-https://collectionapi.metmuseum.org/public/collection/v1/objects
-```
-
-#### Get item
-
-```http
-  GET 
-https://collectionapi.metmuseum.org/public/collection/v1/objects/${id}
-```
-
-## FakeStore Api
-#### Get all items
-
-```http
-  GET 
-https://fakestoreapi.com/products
-```
-
-#### Get item
-
-```http
-  GET 
-https://fakestoreapi.com/products/${id}
-```
-
-## License
-
-MIT License
-
-Copyright (c) [2022] [Vattipally Vijay Yadav]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-
-## Tech Stack
-
--JDK(11)\
--Intellij IDEA\
--Diffblue
-
-
-## 🚀 About Me
-I'm a full stack developer...
-
+## json to xml
+This program mimics use of pipe '|' symbol with ls, cat, wc and head and tail command. 
+#### External library
+- [underscore](https://github.com/jashkenas/underscore)
 
 ## Feedback
 
