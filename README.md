@@ -17,6 +17,20 @@ Install my-project using git
   git clone https://github.com/Vijay-Yadav-8/AzugaTraining
   cd my-project
 ```
+The project doesnot need any installation , by adding this project to the IDE's workspace and adding all the required jar files given below to the class path the project will surve its purpose.
+### Prerequisites 
+The Project has some Prerequisites, jar files / libraries must be installed or added to the dependency’s. Following are required Jar files to add to the classPath for different features,
+1. [pdfunit-java-2016.05.jar](http://www.pdfunit.com/en/download/)
+2. [javax.mail.jar](https://jar-download.com/artifacts/com.sun.mail/javax.mail/1.6.1/source-code)
+3. [activation-1.1.1.jar](https://jar-download.com/artifacts/javax.activation/activation/1.1.1/source-code)
+4. [jfreechart-1.5.3.jar](https://search.maven.org/artifact/org.jfree/jfreechart/1.5.3/jar)
+5. [Underscore-1.81.jar](https://mavenlibs.com/jar/file/com.github.javadev/underscore)
+6. [opencsv-1.7.jar](https://jar-download.com/?search_box=opencsv-1.7)
+7. [jflat-core-1.3.8.jar](https://jar-download.com/?search_box=JFlat)
+8. [commans.io.2.11.0.jar](https://mvnrepository.com/artifact/commons-io/commons-io/2.11.0)
+9. [itextpdf-5.1.0.jar](https://mvnrepository.com/artifact/com.itextpdf/itextpdf/5.1.0)
+10. [zip4j-2.11.2.jar](https://mvnrepository.com/artifact/net.lingala.zip4j/zip4j/2.11.2)
+
     
 ## Roadmap
 
