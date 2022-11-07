@@ -1,0 +1,147 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Table From database</title>
+
+</head>
+<body>
+<div id="fid">
+</div>
+<div id="div"></div>
+<table id="tid" border="1">
+</table>
+<script>
+var baseUrl = "http://localhost:8080/DBHtml/webapi/myresource/";
+const limit = 1;
+function loadDatabase(){
+let table_body ="";
+let insert_btn="";
+fetch(baseUrl+"read").then(response => response.json()).then(data =>{
+console.log(data);
+let limiter=1;
+data.forEach((item) => {
+    table_body += "<thead>";
+      if(limiter==1){
+      Object.entries(item).forEach(([key, val]) => {
+        table_body += `<th>${key}</th>`;
+      });
+      table_body += "<th>action</th>"
+      limiter++;
+    }
+      table_body += "</tr><thead>"
+      table_body += "<tbody><tr>"
+      Object.entries(item).forEach(([key, val]) => {
+       table_body +=  `<td>${JSON.stringify(val).replace(/"/g, '')}</td>`;
+      });
+      table_body += `<td><button style=\"background-color:cyan;border-color:cyan;color:black;\"  onClick=update_table(${JSON.stringify(item).replace(/\s+/g, '')})>update</button>`;
+      table_body += `<button style=\"background-color:red;border-color:red;color:white;\" onClick=delete1_table(${JSON.stringify(item).replace(/\s+/g, '')})>Delete</button></td>`;
+      insert_btn =`<button style=\"background-color:aqua;border-color:blue;color:black;\" onClick=insert_table(${JSON.stringify(item).replace(/\s+/g, '')})>Insert</button>`;
+      table_body += "</tr></tbody>";
+    });
+    document.getElementById("tid").innerHTML=table_body;
+     document.getElementById("div").innerHTML=insert_btn;
+}).catch(err=>console.log(err));
+}
+
+
+function insert_table(json){
+let form_body ="";
+    Object.entries(json).forEach(([key, val]) => {
+        form_body += `<label>${key}<label><br>`;
+        form_body += `<input type="text" id=${key} name=${key}></input><br>`;
+      });
+      console.log(form_body); 
+      form_body += `<button onclick = send_json(${JSON.stringify(json)})>Submit</button>`;
+      document.getElementById("fid").innerHTML += form_body;
+ }
+
+function send_json(json){
+    let json_body ="{";
+Object.entries(json).forEach(([key,val])=>{
+  let val1=document.getElementById(key).value;
+   json_body +=`"${key}":${val1.length==0 ? "\"\"" : isNaN(val1) ? "\""+val1+"\"" : val1 },`;
+});
+json_body +="}";
+let json_data=json_body .replace(",}","}");
+alert(json_data);
+fetch(baseUrl+"insert", {
+  method: "POST",
+  mode:"cors",
+  cache:"default",
+  Headers: {
+    'Content-Type': 'text/plain'
+  },
+  body:json_data,
+}).then(response => response.text()).then(data=>{
+  alert(data);
+  location.reload();
+}).catch(err=>{console.log(err)});
+
+}
+
+function update_table(json){
+  let form_body ="";
+    Object.entries(json).forEach(([key, val]) => {
+        form_body +=`<label>${key}<label><br>`;
+        form_body +=`<input type="text" id=${key} name=${key} value=${JSON.stringify(val)}></input><br>`;
+      });
+      console.log(form_body);
+      form_body+=`<button onclick = update_json(${JSON.stringify(json)})>Submit</button>`;
+      document.getElementById("fid").innerHTML+=form_body;
+}
+
+function update_json(json){
+  var limiter=1;
+  let json_body="{";
+  let cond ="";
+Object.entries(json).forEach(([key,val])=>{
+  let val1=document.getElementById(key).value;
+   json_body+=`"${key}":${val1.length==0 ? "\"\"" : isNaN(val1) ? "\""+val1+"\"" : val1 },`;
+if(limiter==limit){
+  cond=`${key}=${val.length==0 ? "\"\"" : isNaN(val) ? "\""+val+"\"" : val }`;
+}
+limiter++;
+});
+json_body+="}";
+let body_1 = json_body.replace(",}","}");
+alert(cond);
+fetch(baseUrl+"update/"+cond, {
+  method: "PUT",
+  mode:"cors",
+  cache:"default",
+  Headers: {
+    'Content-Type': 'text/plain'
+  },
+  body:body_1
+}).then(response => response.text()).then(data=>{
+  alert(data)
+location.reload();
+}).catch(err=>alert(err));
+
+
+}
+
+function delete1_table(json){
+  var i=1;
+  let cond ="";
+  Object.entries(json).forEach(([key,val])=>{
+    if(i==limit){
+    cond=`${key}=${val.length==0 ? "\"\"" : isNaN(val) ? "\""+val+"\"" : val }`;
+    }
+    i++;
+});
+  fetch(baseUrl+"delete/"+cond, {
+  method: "DELETE",
+  mode:"cors",
+}).then(response => response.text()).then(data=>{
+  alert(data);
+  location.reload();
+}).catch(err=>{console.log(err)});
+}
+
+window.onload=function(){
+loadDatabase();
+}
+</script>
+</body>
+</html>
