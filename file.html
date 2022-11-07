@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Uploader</title>
+    <div id="btn"></div>
+</head>
+
+<body>
+    <h2>File Upload Service</h2>
+
+
+    <input type="file" id="file" accept=".csv">
+    <button id="upload">Upload</button>
+    <small id="status"></small>
+
+    <script>
+        const file = document.getElementById('file');
+        const upload = document.getElementById('upload');
+        const status = document.getElementById("status");
+
+        var baseUrl = "http://localhost:8080/DBHtml/webapi/myresource1/";
+
+        upload.addEventListener('click', () => {
+            // set status to uploading
+            status.innerHTML = "uploading…";
+
+            const fileReader = new FileReader();
+            fileReader.readAsBinaryString(file.files[0]);
+            fileReader.onload = (event) => {
+                let jsonArray = "[";
+                var reader = fileReader.result.split('\n');
+                let json = "";
+                let header = reader[0].split('\"\,\"');
+                console.log(header);
+                for (let i = 1; i < reader.length - 1; i++) {
+                    var jsAr = "{";
+                    let ans  = reader[i].split('\"\,\"');
+                    for (let j = 0; j < ans.length; j++) {
+                        if(j==0){
+                            jsAr += header[j]+"\""+ ":" + ans[j] + "\",";
+                        }
+                        else if(j==ans.length-1){
+                            jsAr += "\""+header[j]+ ":" +"\""+ans[j];
+                        }
+                        else{
+                            jsAr += "\""+header[j]+"\""+ ":\"" + ans[j] + "\"\,";
+                        }
+                        // console.log(ans[j]);
+                    }
+                    jsAr += "},";
+                    json += jsAr;
+                    //  console.log(a);
+                }
+                jsonArray += json;
+                jsonArray += "]";
+                let json_1 =jsonArray.replace(",]", "]");
+                console.log(json_1);
+                fetch(baseUrl + "file", {
+                    method: "POST",
+                    mode: "cors",
+                    cache: "default",
+                    Headers: {
+                        'Content-Type': 'text/plain'
+                    },
+                    body:json_1
+                }).then(response => response.text()).then(data =>{alert(data)
+                document.getElementById("btn").innerHTML="<a href=\"./index.html\"><button>click here to view table</button></a>"
+                }).catch(err => { console.log(err) });
+                console.log('Complete File read successfully!')
+            }
+        });
+    </script>
+</body>
+
+</html>
