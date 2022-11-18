@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:11
 COPY . /src
 WORKDIR /src
 RUN ["javac","JenkinsExample.java"]
