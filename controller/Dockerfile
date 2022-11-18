@@ -1,5 +1,5 @@
 FROM openjdk:11
-COPY . /src
+COPY controller /src
 WORKDIR /src
 RUN ["javac","JenkinsExample.java"]
 ENTRYPOINT ["java","JenkinsExample"]
