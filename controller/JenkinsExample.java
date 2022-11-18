@@ -1,4 +1,3 @@
-package com.azuga.museum.controller;
 
 /**
  * This class is used as example for jenkins
